@@ -1,0 +1,261 @@
+package main.sistemagestionzamira.model;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ConexionDB {
+    private static final String URL = "jdbc:mysql://yamabiko.proxy.rlwy.net:34163/railway";
+    private static final String USER = "root";
+    private static final String PASSWORD = "sFrdysrDfZtahYVhsdyzhNsKECijredS";
+
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+}
+
+class Usuario {
+    int id;
+    String nombre;
+}
+
+class Producto {
+    int id;
+    String nombre;
+    double precio;
+}
+
+class Pedido {
+    int id;
+    int idUsuario;
+    Timestamp fecha;
+    String estado;
+    double total;
+}
+
+class DetallePedido {
+    int id;
+    int idPedido;
+    int idProducto;
+    int cantidad;
+    double precioUnitario;
+}
+
+class Pago {
+    int id;
+    int idPedido;
+    String metodo;
+    double monto;
+    String estado;
+}
+
+class Inventario {
+    int idMovimiento;
+    int idProducto;
+    String tipoMovimiento;
+    int cantidad;
+    Timestamp fecha;
+}
+
+class Envio {
+    int id;
+    int idPedido;
+    String metodoEntrega;
+    String direccionEntrega;
+    String estado;
+    Date fechaEstimada;
+}
+
+class Notificacion {
+    int id;
+    int idUsuario;
+    String mensaje;
+    Timestamp fecha;
+    boolean leida;
+}
+
+class Soporte {
+    int idTicket;
+    int idUsuario;
+    String asunto;
+    String descripcion;
+    String estado;
+    Timestamp fechaCreacion;
+}
+
+class UsuarioDAO {
+    public List<Usuario> obtenerUsuarios() throws SQLException {
+        List<Usuario> lista = new ArrayList<>();
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM USUARIO");
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Usuario u = new Usuario();
+                u.id = rs.getInt("id_usuario");
+                u.nombre = rs.getString("nombre");
+                lista.add(u);
+            }
+        }
+        return lista;
+    }
+}
+
+class ProductoDAO {
+    public List<Producto> obtenerProductos() throws SQLException {
+        List<Producto> lista = new ArrayList<>();
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM PRODUCTO");
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Producto p = new Producto();
+                p.id = rs.getInt("id_producto");
+                p.nombre = rs.getString("nombre");
+                p.precio = rs.getDouble("precio");
+                lista.add(p);
+            }
+        }
+        return lista;
+    }
+}
+
+class PedidoDAO {
+    public List<Pedido> obtenerPedidos() throws SQLException {
+        List<Pedido> lista = new ArrayList<>();
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM PEDIDO");
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Pedido p = new Pedido();
+                p.id = rs.getInt("id_pedido");
+                p.idUsuario = rs.getInt("id_usuario");
+                p.fecha = rs.getTimestamp("fecha");
+                p.estado = rs.getString("estado");
+                p.total = rs.getDouble("total");
+                lista.add(p);
+            }
+        }
+        return lista;
+    }
+}
+
+class DetallePedidoDAO {
+    public List<DetallePedido> obtenerDetalles() throws SQLException {
+        List<DetallePedido> lista = new ArrayList<>();
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM DETALLE_PEDIDO");
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                DetallePedido d = new DetallePedido();
+                d.id = rs.getInt("id_detalle");
+                d.idPedido = rs.getInt("id_pedido");
+                d.idProducto = rs.getInt("id_producto");
+                d.cantidad = rs.getInt("cantidad");
+                d.precioUnitario = rs.getDouble("precio_unitario");
+                lista.add(d);
+            }
+        }
+        return lista;
+    }
+}
+
+class PagoDAO {
+    public List<Pago> obtenerPagos() throws SQLException {
+        List<Pago> lista = new ArrayList<>();
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM PAGO");
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Pago p = new Pago();
+                p.id = rs.getInt("id_pago");
+                p.idPedido = rs.getInt("id_pedido");
+                p.metodo = rs.getString("metodo");
+                p.monto = rs.getDouble("monto");
+                p.estado = rs.getString("estado");
+                lista.add(p);
+            }
+        }
+        return lista;
+    }
+}
+
+class InventarioDAO {
+    public List<Inventario> obtenerMovimientos() throws SQLException {
+        List<Inventario> lista = new ArrayList<>();
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM INVENTARIO");
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Inventario i = new Inventario();
+                i.idMovimiento = rs.getInt("id_movimiento");
+                i.idProducto = rs.getInt("id_producto");
+                i.tipoMovimiento = rs.getString("tipo_movimiento");
+                i.cantidad = rs.getInt("cantidad");
+                i.fecha = rs.getTimestamp("fecha");
+                lista.add(i);
+            }
+        }
+        return lista;
+    }
+}
+
+class EnvioDAO {
+    public List<Envio> obtenerEnvios() throws SQLException {
+        List<Envio> lista = new ArrayList<>();
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM ENVIO");
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Envio e = new Envio();
+                e.id = rs.getInt("id_envio");
+                e.idPedido = rs.getInt("id_pedido");
+                e.metodoEntrega = rs.getString("metodo_entrega");
+                e.direccionEntrega = rs.getString("direccion_entrega");
+                e.estado = rs.getString("estado");
+                e.fechaEstimada = rs.getDate("fecha_estimada");
+                lista.add(e);
+            }
+        }
+        return lista;
+    }
+}
+
+class NotificacionDAO {
+    public List<Notificacion> obtenerNotificaciones() throws SQLException {
+        List<Notificacion> lista = new ArrayList<>();
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM NOTIFICACION");
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Notificacion n = new Notificacion();
+                n.id = rs.getInt("id_notificacion");
+                n.idUsuario = rs.getInt("id_usuario");
+                n.mensaje = rs.getString("mensaje");
+                n.fecha = rs.getTimestamp("fecha");
+                n.leida = rs.getBoolean("leida");
+                lista.add(n);
+            }
+        }
+        return lista;
+    }
+}
+
+class SoporteDAO {
+    public List<Soporte> obtenerTickets() throws SQLException {
+        List<Soporte> lista = new ArrayList<>();
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SOPORTE");
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Soporte s = new Soporte();
+                s.idTicket = rs.getInt("id_ticket");
+                s.idUsuario = rs.getInt("id_usuario");
+                s.asunto = rs.getString("asunto");
+                s.descripcion = rs.getString("descripcion");
+                s.estado = rs.getString("estado");
+                s.fechaCreacion = rs.getTimestamp("fecha_creacion");
+                lista.add(s);
+            }
+        }
+        return lista;
+    }
+}

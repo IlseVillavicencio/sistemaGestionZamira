@@ -1,0 +1,99 @@
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: #f9f9f9;
+}
+
+/* Colores base como clases */
+.rosa {
+    -fx-background-color: #DD2180;
+    -fx-text-fill: #231120;
+}
+.verde {
+    -fx-background-color: #90C867;
+    -fx-text-fill: #0F2600;
+}
+.azul {
+    -fx-background-color: #03B0DA;
+    -fx-text-fill: #002531;
+}
+.amarillo {
+    -fx-background-color: #F5BD34;
+    -fx-text-fill: #332600;
+}
+.naranja {
+    -fx-background-color: #EE612C;
+    -fx-text-fill: #301400;
+}
+.lila {
+    -fx-background-color: #AF98D0;
+    -fx-text-fill: #1A1026;
+}
+
+/* Tarjetas o cuadros blancos con sombra */
+.card {
+    -fx-background-color: white;
+    -fx-padding: 20;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 6);
+    -fx-spacing: 10;
+}
+
+/* Inputs */
+.input, .select, .textarea {
+    -fx-border-color: #ccc;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 8;
+    -fx-font-size: 14px;
+}
+
+/* Botón general con verde como color base */
+.button {
+    -fx-background-color: #90C867;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20 10 20;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+}
+
+/* Hover de botón con tono más oscuro */
+.button:hover {
+    -fx-background-color: #7ab650;
+}
+
+/* Clases de texto */
+.text-rosa { -fx-text-fill: #DD2180; }
+.text-verde { -fx-text-fill: #90C867; }
+.text-azul { -fx-text-fill: #03B0DA; }
+.text-amarillo { -fx-text-fill: #F5BD34; }
+.text-naranja { -fx-text-fill: #EE612C; }
+.text-lila { -fx-text-fill: #AF98D0; }
+
+/* Botón activo (seleccionado) del menú */
+.menu-button-activo {
+    -fx-background-color: #DD2180; /* Rosa */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Botones inactivos del menú */
+.menu-button {
+    -fx-background-color: #AF98D0; /* Lila */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.combo-box {
+    -fx-padding: 2 6 2 6;         /* Padding interno reducido */
+    -fx-background-radius: 10;
+    -fx-font-size: 13px;
+    -fx-pref-height: 26px;        /* Altura preferida menor */
+}
+
+.combo-box .list-cell {
+    -fx-padding: 2 6 2 6;         /* Altura de las opciones del desplegable */
+}
+
