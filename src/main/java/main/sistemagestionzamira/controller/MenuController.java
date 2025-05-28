@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 
 
 import java.io.IOException;
+import java.net.URL;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
@@ -60,16 +61,36 @@ public class MenuController {
     @FXML
     public void irAAdmin() {
         cargarVista("/fxml/admin.fxml");
+        
+    }
+    
+    @FXML 
+    public void irAUsuario() {
+        cargarVista("/fxml/usuario.fxml");
+    }
+
+    @FXML 
+    public void irAProducto() {
+        cargarVista("/fxml/producto.fxml");
+    }
+    
+     @FXML 
+    public void irAInventario() {
+        cargarVista("/fxml/inventario.fxml");
     }
 
     public void cargarVista(String rutaFXML) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(rutaFXML));
+            URL url = getClass().getResource(rutaFXML);
+            if (url == null) {
+                System.err.println("No se encontró el recurso: " + rutaFXML);
+                return;
+            }
+            FXMLLoader loader = new FXMLLoader(url);
             Node vista = loader.load();
             contenidoScrollPane.setContent(vista);
         } catch (IOException e) {
-            
-            // Puedes mostrar una alerta al usuario si ocurre un error
+            e.printStackTrace();
         }
     }
 }

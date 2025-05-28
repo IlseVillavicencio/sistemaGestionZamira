@@ -4,6 +4,7 @@ C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\module-info.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\model\TestConexion.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\model\InventarioDAO.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\App.java
+C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\controller\InventarioController.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\controller\LogisticaController.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\model\DatosDePrueba.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\model\Soporte.java
@@ -13,6 +14,7 @@ C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzam
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\controller\AdminController.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\model\Inventario.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\util\SceneManager.java
+C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\controller\UsuarioController.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\model\Factura.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\model\DetallePedido.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\model\PagoDAO.java
@@ -21,6 +23,7 @@ C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzam
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\controller\NotificacionesController.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\model\EnvioDAO.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\controller\MenuController.java
+C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\controller\ProductoController.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\controller\FacturacionController.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\model\UsuarioDAO.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\controller\SoporteController.java

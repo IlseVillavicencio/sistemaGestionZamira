@@ -1,193 +1,199 @@
 package main.sistemagestionzamira.controller;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import main.sistemagestionzamira.model.DatosDePrueba;
+import javafx.scene.input.KeyEvent;
+
 
 
 public class PedidoController implements Initializable {
-
-    @FXML
-    private ComboBox<String> productoComboBox;
-
-    @FXML
-    private Button agregarProductoButton;
-
-    @FXML
-    private ListView<String> productosListView;
     
-    @FXML
-    private Button btnCargarDatos;
+   // 🧍 Usuario
+    @FXML private TextField busquedaUsuarioTextField;
+    @FXML private ListView<String> resultadosUsuarioListView;
 
+    // 📅 Pedido
+    @FXML private DatePicker fechaPedidoDatePicker;
+    @FXML private ComboBox<String> estadoComboBox;
 
-    //@FXML
-    //private ListView<String> listaCarrito;
+    // 🔍 Productos
+    @FXML private TextField busquedaProductoTextField;
+    @FXML private ComboBox<String> productoComboBox;
+    @FXML private TextField cantidadProductoTextField;
+    @FXML private Label precioUnitarioLabel;
+    @FXML private Button agregarProductoButton;
+    @FXML private ListView<String> productosListView;
+    @FXML private TextField totalTextField;
 
-    @FXML
-    private ComboBox<String> metodoPagoComboBox;
+    // 🚚 Entrega
+    @FXML private ComboBox<String> metodoEntregaComboBox;
+    @FXML private TextField direccionTextField;
+    @FXML private DatePicker fechaEntregaDatePicker;
 
-    @FXML
-    private TextField numeroCuentaTextField;
+    // 💳 Pago
+    @FXML private ComboBox<String> metodoPagoComboBox;
+    @FXML private TextField numeroCuentaTextField;
 
-    @FXML
-    private ComboBox<String> metodoEntregaComboBox;
+    // ✅ Finalizar
+    @FXML private Button realizarPedidoButton;
 
-    @FXML
-    private TextField direccionTextField;
-
-    @FXML
-    private DatePicker fechaEntregaDatePicker;
-
-    @FXML
-    private Button realizarPedidoButton;
-
-    private final ObservableList<String> productosDisponibles = FXCollections.observableArrayList(
-            "Piñata Unicornio", "Piñata Spiderman", "Piñata Dinosaurio"
-    );
-
+    // Datos simulados
+    private final Map<String, Double> productosDisponibles = new HashMap<>();
     private final ObservableList<String> carrito = FXCollections.observableArrayList();
+    private double totalPedido = 0.0;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Inicializar combo productos
-        productoComboBox.setItems(productosDisponibles);
-        productoComboBox.setPromptText("Selecciona producto");
+    @FXML
+    public void initialize() {
+        // Inicializar combos
+        estadoComboBox.setItems(FXCollections.observableArrayList("Pendiente", "Procesado", "Enviado", "Entregado"));
+        metodoEntregaComboBox.setItems(FXCollections.observableArrayList("Recoger en tienda", "Envío a domicilio"));
+        metodoPagoComboBox.setItems(FXCollections.observableArrayList("Tarjeta", "Transferencia", "Efectivo"));
 
-        // Inicializar métodos de pago
-        metodoPagoComboBox.getItems().addAll("Tarjeta de crédito", "Tarjeta de débito", "PayPal");
-        metodoPagoComboBox.setPromptText("Selecciona método de pago");
+        // Simular productos y precios
+        productosDisponibles.put("Pan", 2.50);
+        productosDisponibles.put("Leche", 1.80);
+        productosDisponibles.put("Queso", 4.00);
+        productosDisponibles.put("Huevos", 3.20);
+        productoComboBox.setItems(FXCollections.observableArrayList(productosDisponibles.keySet()));
 
-        // Inicializar métodos de entrega
-        metodoEntregaComboBox.getItems().addAll("Envío a domicilio", "Recoger en tienda");
-        metodoEntregaComboBox.setPromptText("Selecciona entrega");
-
-        // Asociar botón agregar producto
-        agregarProductoButton.setOnAction(e -> agregarProducto());
-
-        // Asociar botón realizar pedido
-        realizarPedidoButton.setOnAction(e -> realizarPago());
-
-        // Inicializar listas
-        //productosListView.setItems(productosDisponibles);
         productosListView.setItems(carrito);
+        totalTextField.setText("0.00");
 
-        // Limpiar campos al inicio
-        numeroCuentaTextField.clear();
-        direccionTextField.clear();
-        fechaEntregaDatePicker.setValue(null);
+        productoComboBox.setOnAction(e -> actualizarPrecioUnitario());
+        agregarProductoButton.setOnAction(e -> agregarProductoAlCarrito());
+        realizarPedidoButton.setOnAction(e -> realizarPedido());
     }
 
-    private void agregarProducto() {
+    private void actualizarPrecioUnitario() {
         String producto = productoComboBox.getValue();
-        if (producto == null || producto.isEmpty()) {
-            mostrarAlerta("Error", "Selecciona un producto para agregar");
+        if (producto != null && productosDisponibles.containsKey(producto)) {
+            double precio = productosDisponibles.get(producto);
+            precioUnitarioLabel.setText(String.format("Precio Unitario: $%.2f", precio));
+        }
+    }
+
+    private void agregarProductoAlCarrito() {
+        String producto = productoComboBox.getValue();
+        String cantidadStr = cantidadProductoTextField.getText();
+
+        if (producto == null || cantidadStr.isEmpty()) {
+            mostrarAlerta("Error", "Debe seleccionar un producto y especificar la cantidad.");
             return;
         }
-        if (!carrito.contains(producto)) {
-            carrito.add(producto);
-            mostrarAlerta("Info", producto + " agregado al carrito");
-        } else {
-            mostrarAlerta("Info", "El producto ya está en el carrito");
+
+        try {
+            int cantidad = Integer.parseInt(cantidadStr);
+            if (cantidad <= 0) throw new NumberFormatException();
+
+            double precio = productosDisponibles.get(producto);
+            double subtotal = precio * cantidad;
+
+            carrito.add(producto + " x" + cantidad + " - $" + String.format("%.2f", subtotal));
+            totalPedido += subtotal;
+            totalTextField.setText(String.format("%.2f", totalPedido));
+
+            // Limpiar campos
+            cantidadProductoTextField.clear();
+            productoComboBox.getSelectionModel().clearSelection();
+            precioUnitarioLabel.setText("Precio Unitario: $");
+
+        } catch (NumberFormatException e) {
+            mostrarAlerta("Cantidad inválida", "La cantidad debe ser un número entero positivo.");
         }
     }
 
-    private void realizarPago() {
-        String metodoPago = metodoPagoComboBox.getValue();
-        String metodoEntrega = metodoEntregaComboBox.getValue();
-        String direccion = direccionTextField.getText();
-        String numeroCuenta = numeroCuentaTextField.getText();
+    private void realizarPedido() {
+        // Validaciones básicas
+        if (resultadosUsuarioListView.getSelectionModel().isEmpty()) {
+            mostrarAlerta("Falta usuario", "Debe seleccionar un usuario.");
+            return;
+        }
 
         if (carrito.isEmpty()) {
-            mostrarAlerta("Error", "No hay productos en el carrito");
+            mostrarAlerta("Carrito vacío", "Debe agregar al menos un producto.");
             return;
         }
 
-        if (metodoPago == null || metodoPago.isEmpty()) {
-            mostrarAlerta("Error", "Selecciona un método de pago");
-            return;
-        }
-        if (numeroCuenta == null || numeroCuenta.trim().isEmpty()) {
-            mostrarAlerta("Error", "Ingresa el número de tarjeta o cuenta");
-            return;
-        }
-        if (metodoEntrega == null || metodoEntrega.isEmpty()) {
-            mostrarAlerta("Error", "Selecciona un método de entrega");
-            return;
-        }
-        if (metodoEntrega.equals("Envío a domicilio")) {
-            if (direccion == null || direccion.trim().isEmpty()) {
-                mostrarAlerta("Error", "Debes proporcionar una dirección para el envío a domicilio");
-                return;
-            }
-            if (fechaEntregaDatePicker.getValue() == null) {
-                mostrarAlerta("Error", "Selecciona una fecha de entrega");
-                return;
-            }
-        }
-
-        // --- Lógica simulada para procesar el pago y la orden ---
-        boolean pagoExitoso = procesarPago(metodoPago, numeroCuenta);
-        if (!pagoExitoso) {
-            mostrarAlerta("Error", "El pago no pudo ser procesado. Intenta de nuevo.");
+        if (fechaPedidoDatePicker.getValue() == null) {
+            mostrarAlerta("Falta fecha", "Debe seleccionar la fecha del pedido.");
             return;
         }
 
-        boolean ordenProcesada = procesarOrden(carrito, metodoEntrega, direccion, fechaEntregaDatePicker.getValue());
-        if (!ordenProcesada) {
-            mostrarAlerta("Error", "No se pudo procesar la orden. Intenta de nuevo.");
-            return;
-        }
+        // Simulación de creación de pedido
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Pedido realizado");
+        alerta.setHeaderText(null);
+        alerta.setContentText("El pedido ha sido registrado correctamente.");
+        alerta.showAndWait();
 
-        mostrarAlerta("Éxito", "Pago y orden realizados correctamente");
+        limpiarFormulario();
+    }
 
-        // Limpiar todo después de pagar
-        carrito.clear();
+    private void limpiarFormulario() {
+        resultadosUsuarioListView.getItems().clear();
+        fechaPedidoDatePicker.setValue(LocalDate.now());
+        estadoComboBox.getSelectionModel().clearSelection();
         productoComboBox.getSelectionModel().clearSelection();
-        metodoPagoComboBox.getSelectionModel().clearSelection();
+        cantidadProductoTextField.clear();
+        precioUnitarioLabel.setText("Precio Unitario: $");
+        carrito.clear();
+        totalPedido = 0.0;
+        totalTextField.setText("0.00");
         metodoEntregaComboBox.getSelectionModel().clearSelection();
-        numeroCuentaTextField.clear();
         direccionTextField.clear();
         fechaEntregaDatePicker.setValue(null);
-    }
-
-    // Simula el procesamiento del pago
-    private boolean procesarPago(String metodoPago, String numeroCuenta) {
-        // Aquí pondrías la integración real con un sistema de pago
-        System.out.println("Procesando pago con " + metodoPago + ", cuenta: " + numeroCuenta);
-        // Simulamos que siempre es exitoso
-        return true;
-    }
-
-    // Simula el procesamiento de la orden
-    private boolean procesarOrden(ObservableList<String> productos, String metodoEntrega, String direccion, java.time.LocalDate fechaEntrega) {
-        System.out.println("Procesando orden:");
-        System.out.println("Productos: " + productos);
-        System.out.println("Método de entrega: " + metodoEntrega);
-        if (metodoEntrega.equals("Envío a domicilio")) {
-            System.out.println("Dirección: " + direccion);
-            System.out.println("Fecha entrega: " + fechaEntrega);
-        }
-        // Simulamos que siempre es exitoso
-        return true;
+        metodoPagoComboBox.getSelectionModel().clearSelection();
+        numeroCuentaTextField.clear();
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
+        Alert alerta = new Alert(Alert.AlertType.WARNING);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
     }
-    
-    @FXML
-    private void cargarDatosDePrueba() {
-    DatosDePrueba datos = new DatosDePrueba();
-    datos.insertarDatos();
-}
 
+    // Método de búsqueda simulado (puedes mejorarlo con una base de datos)
+    @FXML
+    private void buscarUsuario(KeyEvent event) {
+        String texto = busquedaUsuarioTextField.getText().toLowerCase();
+        resultadosUsuarioListView.getItems().clear();
+
+        if (!texto.isEmpty()) {
+            if ("juan".contains(texto)) resultadosUsuarioListView.getItems().add("Juan Pérez");
+            if ("maria".contains(texto)) resultadosUsuarioListView.getItems().add("María López");
+            if ("carlos".contains(texto)) resultadosUsuarioListView.getItems().add("Carlos Ruiz");
+        }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // Inicializar combos
+        estadoComboBox.setItems(FXCollections.observableArrayList("Pendiente", "Procesado", "Enviado", "Entregado"));
+        metodoEntregaComboBox.setItems(FXCollections.observableArrayList("Recoger en tienda", "Envío a domicilio"));
+        metodoPagoComboBox.setItems(FXCollections.observableArrayList("Tarjeta", "Transferencia", "Efectivo"));
+
+        // Simular productos y precios
+        productosDisponibles.put("Pan", 2.50);
+        productosDisponibles.put("Leche", 1.80);
+        productosDisponibles.put("Queso", 4.00);
+        productosDisponibles.put("Huevos", 3.20);
+        productoComboBox.setItems(FXCollections.observableArrayList(productosDisponibles.keySet()));
+
+        productosListView.setItems(carrito);
+        totalTextField.setText("0.00");
+
+        productoComboBox.setOnAction(e -> actualizarPrecioUnitario());
+        agregarProductoButton.setOnAction(e -> agregarProductoAlCarrito());
+        realizarPedidoButton.setOnAction(e -> realizarPedido());
+    }
 }

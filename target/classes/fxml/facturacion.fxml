@@ -15,7 +15,7 @@
 
             <!-- Sección de facturación -->
             <VBox spacing="10" styleClass="card">
-                <Label styleClass="text-amarillo" text="🧾 Panel de Facturación" />
+                <Label styleClass="text-amarillo" text="💰 Panel de Facturación" />
                 <TableView fx:id="tablaFacturas" prefHeight="200.0" prefWidth="800.0">
                     <!-- Columnas a definir en el controlador -->
                 </TableView>
