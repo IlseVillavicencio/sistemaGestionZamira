@@ -1,5 +1,4 @@
 main\sistemagestionzamira\model\DatosDePrueba.class
-main\sistemagestionzamira\controller\UsuarioController.class
 main\sistemagestionzamira\model\PedidoDAO.class
 main\sistemagestionzamira\model\Inventario.class
 main\sistemagestionzamira\controller\SoporteController.class
@@ -7,6 +6,7 @@ main\sistemagestionzamira\model\ProductoDAO.class
 main\sistemagestionzamira\controller\InventarioController$ProductoStock.class
 main\sistemagestionzamira\controller\FacturacionController.class
 main\sistemagestionzamira\model\ConexionDB.class
+main\sistemagestionzamira\controller\PedidoController$CarritoItem.class
 main\sistemagestionzamira\controller\NotificacionesController.class
 util\SceneManager.class
 main\sistemagestionzamira\controller\InventarioController.class
@@ -15,6 +15,7 @@ main\sistemagestionzamira\model\PagoDAO.class
 main\sistemagestionzamira\model\Notificacion.class
 main\sistemagestionzamira\PrimaryController.class
 main\sistemagestionzamira\model\DetallePedidoDAO.class
+main\sistemagestionzamira\model\ProductoCarrito.class
 main\sistemagestionzamira\model\Soporte.class
 main\sistemagestionzamira\SecondaryController.class
 main\sistemagestionzamira\model\Usuario.class

@@ -19,7 +19,6 @@
     
     <VBox spacing="10" styleClass="card">
     <Label text="📦 Inventario" 
-           
            styleClass="text-azul" 
            alignment="CENTER_LEFT" />
 

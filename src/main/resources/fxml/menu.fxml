@@ -16,10 +16,10 @@
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
-            <Button text="👤 Usuario" styleClass="menu-button" onAction="#irAUsuario"/>
+            
+            <Button text="📦 Pedido" styleClass="menu-button" onAction="#irAPedido"/>
             <Button text="🛒 Productos" styleClass="menu-button" onAction="#irAProducto"/>
             <Button text="📦 Inventario" styleClass="menu-button" onAction="#irAInventario"/>
-            <Button text="📦 Pedido" styleClass="menu-button" onAction="#irAPedido"/>
             <Button text="💰 Facturación" styleClass="menu-button" onAction="#irAFacturacion"/>
             <Button text="🔔 Notificaciones" styleClass="menu-button" onAction="#irANotificaciones"/>
             <Button text="🛠 Soporte" styleClass="menu-button" onAction="#irASoporte"/>
