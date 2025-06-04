@@ -1,6 +1,7 @@
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\model\Producto.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\model\PedidoDAO.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\module-info.java
+C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\controller\CarritoItem.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\model\TestConexion.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\model\InventarioDAO.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\App.java
@@ -29,7 +30,6 @@ C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzam
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\model\Notificacion.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\model\ProductoCarrito.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\PrimaryController.java
-C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\model\DetallePedidoDAO.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\model\ProductoDAO.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\model\Pago.java
 C:\Users\ilse_\Desktop\sistemaGestionZamira\src\main\java\main\sistemagestionzamira\model\Pedido.java

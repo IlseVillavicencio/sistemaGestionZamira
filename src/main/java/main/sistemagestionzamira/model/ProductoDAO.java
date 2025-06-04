@@ -17,19 +17,21 @@ import java.util.List;
  * @author ilse_
  */
 public class ProductoDAO {
-   // Obtener todos los productos
+
+    // Obtener todos los productos
     public List<Producto> obtenerTodos() {
         List<Producto> productos = new ArrayList<>();
-        String sql = "SELECT nombre_producto, precio FROM PRODUCTO";
+        String sql = "SELECT id_producto, nombre, precio FROM PRODUCTO";
 
         try (Connection conn = ConexionDB.conectar();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                String nombre = rs.getString("nombre_producto");
+                int idProducto = rs.getInt("id_producto");
+                String nombre = rs.getString("nombre");
                 double precio = rs.getDouble("precio");
-                productos.add(new Producto(nombre, precio));
+                productos.add(new Producto(idProducto, nombre, precio));
             }
 
         } catch (SQLException e) {
@@ -41,7 +43,7 @@ public class ProductoDAO {
 
     // Insertar un nuevo producto
     public boolean insertar(Producto producto) {
-        String sql = "INSERT INTO PRODUCTO (nombre_producto, precio) VALUES (?, ?)";
+        String sql = "INSERT INTO PRODUCTO (nombre, precio) VALUES (?, ?)";
 
         try (Connection conn = ConexionDB.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -58,9 +60,9 @@ public class ProductoDAO {
         }
     }
 
-    // Opcional: buscar por nombre
+    // Buscar por nombre
     public Producto buscarPorNombre(String nombre) {
-        String sql = "SELECT nombre_producto, precio FROM PRODUCTO WHERE nombre_producto = ?";
+        String sql = "SELECT id_producto, nombre, precio FROM PRODUCTO WHERE nombre = ?";
         try (Connection conn = ConexionDB.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -68,7 +70,9 @@ public class ProductoDAO {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    return new Producto(rs.getString("nombre_producto"), rs.getDouble("precio"));
+                    int idProducto = rs.getInt("id_producto");
+                    double precio = rs.getDouble("precio");
+                    return new Producto(idProducto, nombre, precio);
                 }
             }
 

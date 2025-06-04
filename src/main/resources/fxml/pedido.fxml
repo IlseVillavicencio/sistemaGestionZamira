@@ -12,27 +12,29 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="700" prefWidth="800" spacing="15" styleClass="contenido-pedido" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.sistemagestionzamira.controller.PedidoController">
+<VBox alignment="CENTER" prefHeight="700" prefWidth="800" spacing="15" styleClass="contenido-pedido"
+      xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="main.sistemagestionzamira.controller.PedidoController">
 
     <VBox prefWidth="400" spacing="5" styleClass="card">
         <Label styleClass="text-azul" text="👤 Nombre:" />
-        <TextField fx:id="busquedaUsuarioTextField" prefWidth="350" promptText="Buscar usuario por nombre..." styleClass="input" />
+        <TextField fx:id="nombreUsuarioTextField" prefWidth="350" promptText="Nombre del cliente" styleClass="input" />
         <ListView fx:id="resultadosUsuarioListView" prefHeight="100" prefWidth="350" />
+
+        <Label styleClass="text-azul" text="📧 Correo:" />
+        <TextField fx:id="correoUsuarioTextField" prefWidth="350" promptText="Correo electrónico" styleClass="input" />
     </VBox>
 
-    <!-- Fecha del pedido -->
     <HBox alignment="CENTER_LEFT" spacing="10" styleClass="card">
         <Label styleClass="text-azul" text="📅 Fecha pedido:" />
         <DatePicker fx:id="fechaPedidoDatePicker" />
     </HBox>
 
-    <!-- Estado del pedido -->
     <HBox alignment="CENTER_LEFT" spacing="10" styleClass="card">
         <Label styleClass="text-azul" text="📋 Estado:" />
         <ComboBox fx:id="estadoComboBox" prefWidth="200" promptText="Selecciona estado" styleClass="combo-box" />
     </HBox>
 
-    <!-- Productos -->
     <VBox prefHeight="483.0" prefWidth="780.0" spacing="10" styleClass="card">
         <Label styleClass="text-azul" text="🔍 Buscar y agregar productos:" />
 
@@ -41,7 +43,7 @@
             <ComboBox fx:id="productoComboBox" prefWidth="200" promptText="Selecciona producto" styleClass="combo-box" />
             <TextField fx:id="cantidadProductoTextField" prefWidth="80" promptText="Cantidad" />
             <Label fx:id="precioUnitarioLabel" style="-fx-font-weight: bold;" text="Precio Unitario: $" />
-            <Button fx:id="agregarProductoButton" styleClass="button" text="Agregar producto" />
+            <Button fx:id="agregarProductoButton" onAction="#agregarProductoAlCarrito" styleClass="button" text="Agregar producto" />
         </HBox>
 
         <Label styleClass="text-lila" text="🛒 Carrito:" />
@@ -61,7 +63,6 @@
         </HBox>
     </VBox>
 
-    <!-- Sección de Pago y Entrega -->
     <VBox prefWidth="750" spacing="10" styleClass="card">
         <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" styleClass="text-azul" text="🚚 Entrega" />
 
@@ -80,7 +81,7 @@
             <DatePicker fx:id="fechaEntregaDatePicker" />
         </HBox>
     </VBox>
-    
+
     <VBox prefWidth="750" spacing="10" styleClass="card">
         <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" styleClass="text-azul" text="💳 Pago" />
 
@@ -89,14 +90,14 @@
             <ComboBox fx:id="metodoPagoComboBox" prefWidth="200" promptText="Selecciona método de pago" styleClass="combo-box" />
             <TextField fx:id="numeroCuentaTextField" prefWidth="200" promptText="Número tarjeta o cuenta" styleClass="input" />
         </HBox>
-
     </VBox>
 
-    <!-- Botón para guardar pedido -->
-    <Button fx:id="realizarPedidoButton" prefWidth="150" styleClass="verde button" text="Realizar Pedido" />
+    <Button fx:id="realizarPedidoButton" onAction="#realizarPedido" prefWidth="150" styleClass="verde button" text="Realizar Pedido" />
 
     <padding>
         <Insets bottom="10" left="10" right="10" top="10" />
     </padding>
 
 </VBox>
+
+

@@ -5,17 +5,10 @@
 package main.sistemagestionzamira.model;
 
 
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.util.List;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+
 
 /**
  *
@@ -27,13 +20,15 @@ public class Pedido {
     private LocalDateTime fecha;
     private String estado;
     private double total;
+    private List<DetallePedido> detalles;
 
-    public Pedido(int idPedido, int idUsuario, LocalDateTime fecha, String estado, double total) {
+    public Pedido(int idPedido, int idUsuario, LocalDateTime fecha, String estado, double total, List<DetallePedido> detalles) {
         this.idPedido = idPedido;
         this.idUsuario = idUsuario;
         this.fecha = fecha;
         this.estado = estado;
         this.total = total;
+        this.detalles = detalles;
     }
 
     public int getIdPedido() { return idPedido; }
@@ -51,4 +46,6 @@ public class Pedido {
     public double getTotal() { return total; }
     public void setTotal(double total) { this.total = total; }
 
+    public List<DetallePedido> getDetalles() { return detalles; }
+    public void setDetalles(List<DetallePedido> detalles) { this.detalles = detalles; }
 }

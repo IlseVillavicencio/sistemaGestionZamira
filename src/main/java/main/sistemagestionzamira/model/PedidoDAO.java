@@ -9,55 +9,83 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import main.sistemagestionzamira.controller.CarritoItem;
 
 /**
  *
  * @author ilse_
  */
 public class PedidoDAO {
-     public List<Pedido> obtenerPedidos() {
-        List<Pedido> pedidos = new ArrayList<>();
-        String sql = "SELECT * FROM PEDIDO";
 
-        try (Connection conn = ConexionDB.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+    public static void guardarPedido(int idUsuario, String estado, List<CarritoItem> productos) throws SQLException {
+        Connection conn = null;
+        PreparedStatement psPedido = null;
+        PreparedStatement psDetalle = null;
+        ResultSet rsKeys = null;
 
-            while (rs.next()) {
-                pedidos.add(new Pedido(
-                    rs.getInt("id_pedido"),
-                    rs.getInt("id_usuario"),
-                    rs.getTimestamp("fecha").toLocalDateTime(),
-                    rs.getString("estado"),
-                    rs.getDouble("total")
-                ));
+
+        try {
+            conn = ConexionDB.conectar();
+            conn.setAutoCommit(false); // Para manejar transacción
+       
+ 
+           // Calcular total
+            double total = productos.stream()
+                                   .mapToDouble(item -> item.getCantidad() * item.getPrecioUnitario())
+                                   .sum();
+
+            // Insertar pedido
+            String sqlPedido = "INSERT INTO PEDIDO (id_usuario, estado, total) VALUES (?, ?, ?)";
+            psPedido = conn.prepareStatement(sqlPedido, Statement.RETURN_GENERATED_KEYS);
+            psPedido.setInt(1, idUsuario);
+            psPedido.setString(2, estado);
+            psPedido.setDouble(3, total);
+            psPedido.executeUpdate();
+
+            rsKeys = psPedido.getGeneratedKeys();
+            if (!rsKeys.next()) {
+                throw new SQLException("No se pudo obtener el id del pedido insertado.");
+            }
+            int idPedido = rsKeys.getInt(1);
+
+            // Insertar detalles
+            String sqlDetalle = "INSERT INTO DETALLE_PEDIDO (id_pedido, id_producto, cantidad, precio_unitario) VALUES (?, ?, ?, ?)";
+            psDetalle = conn.prepareStatement(sqlDetalle);
+
+            for (CarritoItem item : productos) {
+                psDetalle.setInt(1, idPedido);
+                psDetalle.setInt(2, item.getIdProducto());  // Asegúrate de tener este dato
+                psDetalle.setInt(3, item.getCantidad());
+                psDetalle.setDouble(4, item.getPrecioUnitario());
+                psDetalle.addBatch();
+            }
+            psDetalle.executeBatch();
+
+            // Al confirmar pedido, registrar salida en INVENTARIO para descontar stock
+            String sqlInventario = "INSERT INTO INVENTARIO (id_producto, tipo_movimiento, cantidad) VALUES (?, 'salida', ?)";
+            try (PreparedStatement psInv = conn.prepareStatement(sqlInventario)) {
+                for (CarritoItem item : productos) {
+                    psInv.setInt(1, item.getIdProducto());
+                    psInv.setInt(2, item.getCantidad());
+                    psInv.addBatch();
+                }
+                psInv.executeBatch();
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return pedidos;
-    }
-
-    public void insertarPedido(Pedido pedido) {
-        String sql = "INSERT INTO PEDIDO (id_pedido, id_usuario, fecha, estado, total) VALUES (?, ?, ?, ?, ?)";
-
-        try (Connection conn = ConexionDB.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, pedido.getIdPedido());
-            stmt.setInt(2, pedido.getIdUsuario());
-            stmt.setTimestamp(3, Timestamp.valueOf(pedido.getFecha()));
-            stmt.setString(4, pedido.getEstado());
-            stmt.setDouble(5, pedido.getTotal());
-            stmt.executeUpdate();
+            conn.commit();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (conn != null) conn.rollback();
+            throw e;
+        } finally {
+            if (rsKeys != null) rsKeys.close();
+            if (psPedido != null) psPedido.close();
+            if (psDetalle != null) psDetalle.close();
+            if (conn != null) conn.close();
         }
     }
 }
