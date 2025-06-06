@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SistemaVentaZamira" default="default" basedir=".">
+    <description>Builds, tests, and runs the project SistemaVentaZamira.</description>
+    <import file="nbproject/build-impl.xml"/>
+
+    <!-- Configura la ruta a tu JavaFX SDK -->
+    <property name="javafx.sdk" value="C:\Users\ilse_\Downloads\openjfx-24.0.1_windows-x64_bin-sdk\javafx-sdk-24.0.1"/>
+    
+    <target name="run" depends="jar">
+        <java classname="sistemaventazamira.main" fork="true">
+            <!-- Configuración de módulos JavaFX -->
+            <jvmarg value="--module-path"/>
+            <jvmarg value="${javafx.sdk}\lib"/>
+            <jvmarg value="--add-modules"/>
+            <jvmarg value="javafx.controls,javafx.fxml"/>
+
+            <!-- Permitir acceso nativo para evitar advertencias -->
+            <jvmarg value="--enable-native-access=javafx.graphics"/>
+
+            <!-- Configuraciones adicionales -->
+            <jvmarg value="-Dprism.marlin.useThreadLocal=true"/>
+
+            <classpath>
+                <path path="${run.classpath}"/>
+                <pathelement location="${dist.jar}"/>
+            </classpath>
+        </java>
+    </target>
+</project>

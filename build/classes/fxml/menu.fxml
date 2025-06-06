@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.ScrollPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="sistemaventazamira.controller.MenuController">
+
+    <!-- Menú horizontal en la parte superior -->
+    <top>
+        <HBox alignment="CENTER" spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            
+            <Button text="📦 Pedido" styleClass="menu-button" onAction="#irAPedido"/>
+            <Button text="🛒 Productos" styleClass="menu-button" onAction="#irAProducto"/>
+            <Button text="📦 Inventario" styleClass="menu-button" onAction="#irAInventario"/>
+            <Button text="💰 Facturación" styleClass="menu-button" onAction="#irAFacturacion"/>
+            <Button text="🔔 Notificaciones" styleClass="menu-button" onAction="#irANotificaciones"/>
+            <Button text="🛠 Soporte" styleClass="menu-button" onAction="#irASoporte"/>
+            <Button text="🚚 Logística" styleClass="menu-button" onAction="#irALogistica"/>
+            <Button text="👑 Admin" styleClass="menu-button" onAction="#irAAdmin"/>
+        </HBox>
+    </top>
+
+    <!-- Área central con ScrollPane para contenido dinámico -->
+    <center>
+        <ScrollPane fx:id="contenidoScrollPane" fitToWidth="true" fitToHeight="true"
+                    hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"/>
+    </center>
+
+</BorderPane>

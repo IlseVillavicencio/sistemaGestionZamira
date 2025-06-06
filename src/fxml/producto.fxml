@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefWidth="400" spacing="15" styleClass="card" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistemaventazamira.controller.ProductoController">
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20" />
+    </padding>
+
+    <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" styleClass="text-azul" text="📦 Agregar Producto" />
+
+    <TextField fx:id="nombreProductoField" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="360.0" promptText="Nombre del producto" styleClass="input" />
+    <TextField fx:id="precioProductoField" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="360.0" promptText="Precio" styleClass="input" />
+    <TextField fx:id="descripcionProductoField" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="360.0" promptText="Descripción" styleClass="input" />
+
+    <Button onAction="#guardarProducto" styleClass="button" text="Guardar Producto" />
+</VBox>
